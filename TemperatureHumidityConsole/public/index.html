@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thermostat Web Console</title>
+    <!-- Charts.JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 40px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h2 { margin-top: 0; color: #333; }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .btn:hover { background-color: #0056b3; }
+        canvas {
+            width: 100% !important;
+            height: 400px !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Temperature and Humidity Dash</h2>
+        <button class="btn" onclick="fetchAndRenderChart()">Refresh Chart Data</button>
+        <canvas id="sensorChart"></canvas>
+    </div>
+
+    <script>
+        let myChart = null;
+
+        async function fetchAndRenderChart() {
+            try {
+                const response = await fetch('/api/readings');
+                const data = await response.json();
+
+                // Grab labels, timestamps.
+                const labels = data.map(item => item.timestamp);
+                const temperatures = data.map(item => item.temperature);
+                const humidities = data.map(item => item.humidity);
+
+                const ctx = document.getElementById('sensorChart').getContext('2d');
+
+                // If a chart already exists, get rid of it
+                if (myChart) {
+                    myChart.destroy();
+                }
+
+                // Create a new chart
+                myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Temperature (°C)',
+                                data: temperatures,
+                                borderColor: 'rgb(255, 99, 132)',
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                tension: 0.2
+                            },
+                            {
+                                label: 'Humidity (%)',
+                                data: humidities,
+                                borderColor: 'rgb(54, 162, 235)',
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                tension: 0.2
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+            } catch (err) {
+                console.error('Error loading chart data:', err);
+            }
+        }
+
+        // Load chart automatically when page opens
+        fetchAndRenderChart();
+    </script>
+
+</body>
+</html>

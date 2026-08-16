@@ -94,9 +94,9 @@ void UpdateLEDs(const Sensor::RefinedReadings& data) {
         //Alternator Port for line 2
         static auto lastSwitch = std::chrono::steady_clock::now();
         auto currentTime = std::chrono::steady_clock::now();
-        auto elapstedTime = std::chrono::duration_cast<std::chrono::seconds>(currentTime - lastSwitch).count();
+        auto elapsedTime = std::chrono::duration_cast<std::chrono::seconds>(currentTime - lastSwitch).count();
 
-        if (elapstedTime >= 5) {
+        if (elapsedTime >= 5) {
             lastSwitch = currentTime;
             alternatingCounter = (alternatingCounter == 1) ? 2 : 1;
             if (alternatingCounter > 2) {

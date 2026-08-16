@@ -1,0 +1,100 @@
+{
+  "readings": [
+    {
+      "Index": 0,
+      "Temperature": 733,
+      "Humidity": 646,
+      "Timestamp": 1786330369
+    },
+    {
+      "Index": 1,
+      "Temperature": 733,
+      "Humidity": 646,
+      "Timestamp": 1786330371
+    },
+    {
+      "Index": 2,
+      "Temperature": 733,
+      "Humidity": 646,
+      "Timestamp": 1786330374
+    },
+    {
+      "Index": 3,
+      "Temperature": 733,
+      "Humidity": 646,
+      "Timestamp": 1786330376
+    },
+    {
+      "Index": 4,
+      "Temperature": 733,
+      "Humidity": 646,
+      "Timestamp": 1786330378
+    },
+    {
+      "Index": 5,
+      "Temperature": 733,
+      "Humidity": 646,
+      "Timestamp": 1786330380
+    },
+    {
+      "Index": 6,
+      "Temperature": 733,
+      "Humidity": 646,
+      "Timestamp": 1786330382
+    },
+    {
+      "Index": 7,
+      "Temperature": 733,
+      "Humidity": 646,
+      "Timestamp": 1786330384
+    },
+    {
+      "Index": 8,
+      "Temperature": 733,
+      "Humidity": 646,
+      "Timestamp": 1786330386
+    },
+    {
+      "Index": 9,
+      "Temperature": 734,
+      "Humidity": 646,
+      "Timestamp": 1786330388
+    },
+    {
+      "Index": 10,
+      "Temperature": 734,
+      "Humidity": 647,
+      "Timestamp": 1786330390
+    },
+    {
+      "Index": 11,
+      "Temperature": 733,
+      "Humidity": 646,
+      "Timestamp": 1786330393
+    },
+    {
+      "Index": 12,
+      "Temperature": 733,
+      "Humidity": 646,
+      "Timestamp": 1786330395
+    },
+    {
+      "Index": 13,
+      "Temperature": 734,
+      "Humidity": 647,
+      "Timestamp": 1786330397
+    },
+    {
+      "Index": 14,
+      "Temperature": 734,
+      "Humidity": 647,
+      "Timestamp": 1786330399
+    },
+    {
+      "Index": 15,
+      "Temperature": 734,
+      "Humidity": 646,
+      "Timestamp": 1786330401
+    }
+  ]
+}

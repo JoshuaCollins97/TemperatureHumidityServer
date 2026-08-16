@@ -1,0 +1,27 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "webserverTH",
+  "keywords": [
+    "AHT"
+  ],
+  "homepage": "https://github.com/JoshuaCollins97/TemperatureHumidityServer#readme",
+  "bugs": {
+    "url": "https://github.com/JoshuaCollins97/TemperatureHumidityServer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoshuaCollins97/TemperatureHumidityServer.git"
+  },
+  "license": "ISC",
+  "author": "JC",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

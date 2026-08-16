@@ -16,6 +16,7 @@ class Sensor {
                 //Scale float value by ten, cheaper.
                 int16_t Humidity = 0;
                 int16_t Temperature = 0;
+                int64_t Timestamp = 0;
         };
         Sensor(){}
         ~Sensor(){
