@@ -22,7 +22,7 @@ graph LR
     C[Push Buttons] -->|libgpiod Interrupts| B
     B -->|4-Bit Mode Bitbanging| D[16x2 LCD]
     B -->|PWM / GPIO| E[State LEDs]
-    B -->|O(1) Ring Buffer & Z-Score| F[Sanitized Batch Buffer]
+    B -->|"O(1) Ring Buffer & Z-Score"| F[Sanitized Batch Buffer]
     F -->|libcurl POST| G[Node.js / Express Server]
     G -->|Mongoose| H[(MongoDB Database)]
     H --> I[Chart.js Web Dashboard]
