@@ -6,10 +6,7 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white)
 ![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=flat&logo=chartdotjs&logoColor=white)
 
-This repository holds my Computer Science capstone project: a full-stack IoT environmental monitor and thermostat. 
-
-Originally prototyped in Python, I ported the embedded controller entirely to C++ to get closer to the hardware and manage strict resource constraints. The system reads data from an I2C sensor, sanitizes it to catch hardware spikes, manages local state (like pulsing LEDs based on active setpoints), and batches the data over a REST API to a local Node.js/MongoDB telemetry dashboard.
-
+This repository contains my final project for the SNHU CS Program, an IoT device that gathers temperature and humidity data and reports it to an outside webserver. This project was ported from a preexisting Python project, with the goal to increase performance and decrease resource usage. The software relies on an I2C sensor, which provides input utilized throughout most of the system. These inputs were used both for the basic state machine, as well as components like LEDs, an LCD, and 3 buttons requiring interrupt detection, all of which were implemented with heavy reliance on the libgpiod library for C++. The project was enhanced throughout the course through the addition of a data structure that allowed for the implementation of a sanitization algorithm and the use of libcurl which allowed for POSTing data batched from this structure.
 ---
 
 ## The Architecture
@@ -35,14 +32,11 @@ graph LR
 As part of my capstone enhancements, I focused heavily on system analysis and intentional design trade-offs rather than just getting the code to "work."
 
 ### 1. Software Engineering: Python to C++ Port
-While Python's abstracted libraries are great for rapid prototyping, I wanted the granular control necessary for compiled, hardware-level performance. I utilized `libgpiod` to manage GPIO button interrupts and engineered manual "bitbanging" for the 16x2 LCD in 4-bit mode. By choosing this manual approach over a heavy background daemon like `LCDProc`, I prioritized system efficiency over development speed. (This also taught me the critical importance of relying on official repository documentation, after wasting time on deprecated `libgpiod` v1 tutorials!)
-
+While Python's focus on readability and its ecosystem of libraries help to build prototypes, its often not the best for a final product. With the understanding that more resources means more money, I wanted to decrease the overhead for this "final product". This move meant that I would have to find libraries to replace the functionality of those found in Python, libgpiod being the absolute most important for this project. I initially hesitated when deciding on how to control the LCD, I would likely be able to get something like LCDProc to run in the background while the main program ran. This would prevent having to manage the LCDs loop within the code, but also require an entirely separate program running alongside my own. This led me to bitbanging, which relied on libgpiod as well.
 ### 2. Data Structures: Constant-Time Ring Buffer & Anomaly Detection
-To validate outgoing sensor data, I implemented a ring buffer coupled with a Z-score sanitization algorithm to filter out hardware voltage spikes. I deliberately engineered the buffer's capacity to be a power of 2. This allowed me to use bitwise masking rather than costly modulo operations to perform the wrapping, ensuring constant-time insertions on the microcontroller. 
-
+The main data structure within the program is the ring buffer, which was implemented to help validate sensor data before leaving the system. This data used a Z-score system to filter out "impossible" readings. The buffer itself was kept to a power of 2, initially 8, but raised to 16 because the smaller capacity gave a new reading too much influence on the mean. This power of 2 design allowed for bitwise masking, which prevented the use of modulo operations while wrapping through the buffer. This allowed for constant time operations. 
 ### 3. Databases: Full-Stack Telemetry Pipeline
-Rather than leaving the data trapped on the embedded device, I established a pipeline using `libcurl` to manually batch, format, and send sensor readings via HTTP POST requests. A Node.js and Express server ingests this JSON data, stores it securely in a MongoDB database, and serves it to a Chart.js dashboard. 
-
+While the data was being placed into a structure, it was being overwritten every time the buffer began to wrap. To establish data persistence, I utilized libcurl to POST the data, in batches of 16, out to a different machine. This machine ran a Node.js and Express server, which would serve this data out to a MongoDB. This data was then made visual in chart form by utilizing a Chart.js dashboard. 
 ---
 
 ## Repository Structure
